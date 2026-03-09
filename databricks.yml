@@ -1,0 +1,47 @@
+bundle:
+  name: dtp-tiles
+
+variables:
+  catalog:
+    default: danny_demo_catalog
+    description: Unity Catalog catalog name
+  schema:
+    default: geo
+    description: Schema name for geographic data
+  warehouse_id:
+    default: "2b326828bf2cdae0"
+    description: SQL Warehouse ID
+  lakebase_catalog:
+    default: dtp_tiles
+    description: Unity Catalog catalog for Lakebase Autoscaling
+
+workspace:
+  host: https://fe-sandbox-dw-sandbox-serverless.cloud.databricks.com/
+
+resources:
+  # ----------------------------------------------------------
+  # NOTE: Lakebase Autoscaling project (dtp-tiles) is managed
+  # outside DABs. All provisioning (project, PostGIS, roles,
+  # data loading) is handled by notebook 01_setup_lakebase.py.
+  # ----------------------------------------------------------
+
+  jobs:
+    setup_lakebase:
+      name: "[${bundle.target}] DTP Tiles - Setup Lakebase"
+      tasks:
+        - task_key: provision_and_load
+          notebook_task:
+            notebook_path: ./src/notebooks/01_setup_lakebase.py
+
+    load_vic_suburbs:
+      name: "[${bundle.target}] DTP Tiles - Load VIC Suburbs"
+      tasks:
+        - task_key: load_suburbs
+          notebook_task:
+            notebook_path: ./src/notebooks/02_load_vic_suburbs.py
+
+
+targets:
+  dev:
+    mode: development
+    default: true

@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.eggs/
+.venv/
+venv/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Environment and secrets
+.env
+.env.local
+
+# Databricks
+.databricks/
+
+# Deploy directory (contains credentials in app.yaml)
+deploy/
+
+# Data cache
+data/
+
+# Architecture diagram (generated)
+architecture.png
+architecture.mmd
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.pbf
